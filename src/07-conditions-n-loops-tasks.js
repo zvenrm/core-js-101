@@ -297,11 +297,19 @@ function reverseInteger(num) {
  */
 function isCreditCardNumber(ccn) {
   /* throw new Error('Not implemented'); */
-  const cardno = /^(?:3[47][0-9]{13})$/;
-  if (String(ccn).match(cardno)) {
-    return true;
+  const val = String(ccn);
+  let s = 0;
+  let doubleDigit = false;
+  for (let i = val.length - 1; i >= 0; i -= 1) {
+    let digit = +val[i];
+    if (doubleDigit) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    s += digit;
+    doubleDigit = !doubleDigit;
   }
-  return false;
+  return s % 10 === 0;
 }
 
 /**
@@ -318,8 +326,16 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  /* throw new Error('Not implemented'); */
+  let sum = 0;
+  for (let i = 0; i < String(num).length; i += 1) {
+    sum += +String(num)[i];
+  }
+  if (sum <= 9) {
+    return sum;
+  }
+  return getDigitalRoot(sum);
 }
 
 
@@ -344,8 +360,25 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  /* throw new Error('Not implemented'); */
+  const map = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+    '<': '>',
+  };
+  const closing = Object.values(map);
+  const stack = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    if (map[str[i]]) {
+      stack.push(str[i]);
+    } else if (closing.includes(str[i]) && str[i] !== map[stack.pop()]) {
+      return false;
+    }
+  }
+  return !stack.length;
 }
 
 
@@ -369,8 +402,9 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  /* throw new Error('Not implemented'); */
+  return num.toString(n);
 }
 
 
@@ -386,8 +420,9 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  /* throw new Error('Not implemented'); */
+  
 }
 
 
